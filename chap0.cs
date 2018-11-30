@@ -69,6 +69,25 @@ namespace CSharpWhiteboardProblems
             Console.WriteLine("-3 : " + recursiveSum(-3));
 
 
+            Console.Write("\n\nTesting the number of common elements function:\n");
+            List<int> a = new List<int>();
+            List<int> b = new List<int>();
+
+            a.Add(3);
+            a.Add(4);
+            a.Add(5);
+            a.Add(6);
+            a.Add(7);
+            a.Add(8);
+            a.Add(5);
+
+            b.Add(3);
+            b.Add(5);
+            b.Add(5);
+            b.Add(5);
+            b.Add(5);
+
+            Console.WriteLine("List a and List b have: " + numCommon(a,b) + " elements in common.");
 
 
 
@@ -243,7 +262,8 @@ namespace CSharpWhiteboardProblems
             return sum;
         }
 
-        //Get the number of common elements between the two given lists
+
+	//Get the number of common elements between the two given lists
         static int numCommon(List<int> a, List<int> b) {
             if (a.Count == 0 || b.Count == 0)
                 return 0;
@@ -252,21 +272,40 @@ namespace CSharpWhiteboardProblems
 
             //Get the frequency of every number from List a
             for (int i = 0; i < a.Count; i++) {
-                myMap[a[i]] += 1;
+
+                //If the key is not in our map, then we initialize a key-value pair
+                if (!myMap.ContainsKey(a[i]))
+                    myMap[a[i]] = 1;
+                else
+                    myMap[a[i]] += 1;
             }
+
+            //We need to print the entire dictionary to see what is going on.
+            printDictionary(myMap);
 
             //Traverse List b
             int counter = 0;
             for (int i = 0; i < b.Count; i++) {
-                if (myMap.ContainsKey(b[i]) && b[i] > 0) {
+                if (myMap.ContainsKey(b[i]) && myMap[b[i]] > 0) {
                     ++counter;
                     myMap[b[i]] -= 1;
                 }
             }
+
             return counter;
         }
 
 
-    }
+        static void printDictionary(Dictionary<int, int> myMap) {
+
+            Console.WriteLine("Printing Dictionary:");
+            //We need to print out every key-value pair
+            for (int i = 0; i < myMap.Count; i++) {
+                Console.WriteLine("Key: {0} -> {1}"
+				, myMap.Keys.ElementAt(i), myMap[myMap.Keys.ElementAt(i)]);
+            }
+        }
+
+    }//End of class
 }
 
